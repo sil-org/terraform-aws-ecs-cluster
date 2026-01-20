@@ -1,26 +1,44 @@
 
-/*
- * TODO: complete these basic instantiations of the module, with the base purpose of
- * validating the syntax of module code automatically when pushed to version control.
- * One instance should use the minimum allowable set of inputs. The other should have
- * the full complement of inputs. You may also wish to include module outputs to
- * enforce the presence of module outputs.
- */
-
 module "minimal" {
   source = "../"
-
-  variable_name = "foo"
 }
 
 module "full" {
   source = "../"
 
-  variable_name = "foo"
+  app_name     = ""
+  app_env      = ""
+  amiFilter    = ""
+  cluster_name = ""
+  tags         = {}
 }
 
-output "an_output" {
-  value = module.minimal.output_name
+output "ecs_cluster_id" {
+  value = module.minimal.ecs_cluster_id
+}
+
+output "ecs_cluster_name" {
+  value = module.minimal.ecs_cluster_name
+}
+
+output "ecs_instance_role_id" {
+  value = module.minimal.ecs_instance_role_id
+}
+
+output "ecs_instance_profile_id" {
+  value = module.minimal.ecs_instance_profile_id
+}
+
+output "ecsServiceRole_arn" {
+  value = module.minimal.ecsServiceRole_arn
+}
+
+output "ecsInstanceRole_arn" {
+  value = module.minimal.ecsInstanceRole_arn
+}
+
+output "ami_id" {
+  value = module.minimal.ami_id
 }
 
 provider "aws" {
@@ -28,12 +46,16 @@ provider "aws" {
 }
 
 terraform {
-  required_version = ">= 1.0"
+  required_version = ">= 0.12"
 
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 5.0"
+      version = ">= 4.0.0, < 6.0.0"
+    }
+    random = {
+      source  = "hashicorp/random"
+      version = ">= 2.1.0, < 4.0.0"
     }
   }
 }
